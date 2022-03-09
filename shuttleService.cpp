@@ -1,5 +1,6 @@
 #include "shuttleService.h"
 #include "src/stateMachineClass.h"
+#include "event.h"
 #include "src/io.h"
 
 static StateMachine sm ;
@@ -48,7 +49,7 @@ StateFunction( running )
     exitState
     {
         getSettings() ;
-
+        setLights( trainBreaking ) ;
         return 1 ;
     }
 }
@@ -71,7 +72,7 @@ StateFunction( breaking )
     }
     exitState
     {
-        
+        setLights( trainArrived ) ;
         return 1 ;
     }
 }
@@ -98,7 +99,7 @@ StateFunction( accelerating )
 {
     entryState
     {
-        
+        setLights( trainDeparting ) ;
     }
     onState
     {
@@ -130,11 +131,12 @@ StateFunction( departure )
         if( sm.timeout() )
         {
             // Xnet.setPower( /* kill power */ ) ;
+            setLights( trainNotDeparted ) ;
         }
     }
     exitState
     {
-        
+        setLights( trainDeparted ) ;
         return 1 ;
     }
 }
