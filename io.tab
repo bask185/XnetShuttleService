@@ -1,0 +1,12 @@
+3	detectorPin	INPUT
+4	redLed	OUTPUT
+5	yellowLed	OUTPUT
+6	greenLed	OUTPUT
+7	teachinButton	INPUT_PULLUP
+8	newTrainButton	INPUT_PULLUP
+8	onOffPin	INPUT_PULLUP
+A4	pausePin	INPUT
+A5	speedPin	INPUT
+A6	accelPin	INPUT
+A7	brakePin	INPUT
+2	RS485dir	OUTPUT
