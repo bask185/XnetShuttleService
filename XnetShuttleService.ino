@@ -41,10 +41,10 @@ void debounceInputs()
         detector.debounce() ;
     } END_REPEAT
 
-    teachState    = teach.getState() ;
-    newTrainState = newTrain.getState() ;
+    teachState    = teach.getState() ;      // can be both pust as toggle, I think toggle would do better
+    newTrainState = newTrain.getState() ;   // note, newTrain should be push button
     detectorState = detector.getState() ;
-    onOffState    = onOff.getState() ;
+    onOffState    = onOff.getState() ;      // should be toggle Switch
 }
 
 void proccesButtons()
@@ -83,6 +83,8 @@ void notifyXNetLocoDrive128( uint16_t Address, uint8_t Speed )
         storeCurrentAddress( currentAddress ) ;
     }
 }
+
+void setPoints()
 
 void setup()
 {
