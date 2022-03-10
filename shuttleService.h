@@ -6,8 +6,8 @@ extern Train train ;
 
 enum states
 {
-    running,                // green
-    breaking,               // green + red flash
+    awaitingTrain,          // green
+    braking,                // green + red flash
     pausing,                // green flashing
     accelerating,           // green + yellow flash
     departure,

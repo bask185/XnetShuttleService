@@ -22,6 +22,13 @@ enum events
     addressReceived,
 } ;
 
+enum modes
+{
+    OFF,
+    running,
+    teachin
+} ;
+
 extern void eventHandler() ;
 extern void setLights( uint8 ) ;
 extern uint8 mode ;

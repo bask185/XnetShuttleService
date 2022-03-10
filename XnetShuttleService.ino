@@ -11,7 +11,13 @@
 #include "points.h"
 
 
+/* TODO 
 
+The modes have to be set properly with the button states
+the begin situation should examined, what to do with or without train?
+XpressNet wrapper functions must be made to set speed and diretion with
+
+*/
 
 XpressNetMasterClass Xnet ;
 

@@ -10,12 +10,6 @@ uint8  leds ;
 uint8  event ;
 uint16 blinkSpeed ;
 
-enum modes
-{
-    OFF,
-    teachin,
-    running,
-} ;
 uint8 mode ;
 
 uint32 prevTime ;

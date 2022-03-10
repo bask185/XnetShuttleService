@@ -15,14 +15,13 @@ uint8 direction;
 
 void initShuttleService()
 {
-    sm.setState( running ) ;
+    sm.setState( awaitingTrain ) ;
 }
-
 
 Train getSettings()
 {
     if( getTrain( &train, currentAddress ) == -1                                // if either no valid address is entered or teachin button is low -> use potentiometer values
-    ||  digitalRead( teachinButton ) == LOW )                           
+    ||  mode == teachin )                         
     {
         train.breakingFactor     = analogRead( brakePin ) ;
         train.acceleratingFactor = analogRead( accelPin ) ;
@@ -37,7 +36,7 @@ Train getSettings()
 #define onState     if( sm.onState() )
 #define exitState   if( sm.exitState() )
 
-StateFunction( running )
+StateFunction( awaitingTrain )
 {
     entryState
     {
@@ -54,7 +53,7 @@ StateFunction( running )
     }
 }
 
-StateFunction( breaking )
+StateFunction( braking )
 {
     entryState
     {
@@ -148,11 +147,11 @@ uint8_t shuttleService()
 {
     STATE_MACHINE_BEGIN(sm)
     {
-        State( running )        sm.nextState( breaking,        0 ) ;               // wait for sensor to be tripped
-        State( breaking )       sm.nextState( pausing,      5000 ) ;               // start slowing down
+        State( awaitingTrain )  sm.nextState( braking,         0 ) ;               // wait for sensor to be tripped
+        State( braking )        sm.nextState( pausing,      5000 ) ;               // start slowing down
         State( pausing )        sm.nextState( accelerating, 5000 ) ;               // toggle direction after 5s and wait before accelerating, also sets points before accelerating
         State( accelerating )   sm.nextState( departure,       0 ) ;               // accelerate train
-        State( departure)       sm.nextState( running,         0 ) ;               // wait for train to leave the sensor, 20 second timeout
+        State( departure)       sm.nextState( awaitingTrain,         0 ) ;               // wait for train to leave the sensor, 20 second timeout
 
     } STATE_MACHINE_END(sm)
 }
