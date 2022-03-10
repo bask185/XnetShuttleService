@@ -8,6 +8,9 @@
 #include "trains.h"
 #include "shuttleService.h"
 #include "event.h"
+#include "points.h"
+
+
 
 
 XpressNetMasterClass Xnet ;
@@ -84,7 +87,15 @@ void notifyXNetLocoDrive128( uint16_t Address, uint8_t Speed )
     }
 }
 
-void setPoints()
+void movePoint( uint16 raw )
+{
+    uint8  state   = raw >> 15 ;
+    uint16 address = raw & 0x3FF ;
+
+    Xnet.SetTrntPos( address, state, 1 ) ;
+    delay( 20 ) ;
+    Xnet.SetTrntPos( address, state, 0 ) ;
+}
 
 void setup()
 {
@@ -103,6 +114,7 @@ void loop()
 {
     debounceInputs() ;
     proccesButtons() ;
+    handlePoints() ;
 
     if( onOffState == HIGH ) shuttleService() ;                                  // run state machine
 

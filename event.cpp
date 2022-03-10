@@ -88,7 +88,7 @@ void setLights( uint8 event )
         case teachingEnabled:   flash( yellow          ,   5, FAST ) ; break ;
         case turnedOff:         flash( red             ,   5, FAST ) ; break ; 
         case detectorMade:      flash( yellow          ,   3, FAST ) ; break ;
-        case trainBreaking:     flash( green | red     ,   1, SLOW ) ; break ;
+        case trainBraking:      flash( green | red     ,   1, SLOW ) ; break ;
         case trainArrived:      flash( green | red     ,   2, SLOW ) ; break ;
         case trainDeparting:    flash( green | yellow  ,   1, SLOW ) ; break ;
         case trainDeparted:     flash( green | yellow  ,   2, SLOW ) ; break ;

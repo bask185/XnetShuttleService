@@ -1,6 +1,7 @@
 #include "shuttleService.h"
 #include "src/stateMachineClass.h"
 #include "event.h"
+#include "points.h"
 #include "src/io.h"
 
 static StateMachine sm ;
@@ -40,7 +41,7 @@ StateFunction( running )
 {
     entryState
     {
-        getSettings() ;
+        
     }
     onState
     {       
@@ -49,7 +50,6 @@ StateFunction( running )
     exitState
     {
         getSettings() ;
-        setLights( trainBreaking ) ;
         return 1 ;
     }
 }
@@ -58,7 +58,7 @@ StateFunction( breaking )
 {
     entryState
     {
-        
+        setLights( trainBraking ) ;
     }
     onState
     {
@@ -72,6 +72,8 @@ StateFunction( breaking )
     }
     exitState
     {
+        setPoints( 0 ) ;                                                        // set street back to main track
+
         setLights( trainArrived ) ;
         return 1 ;
     }
@@ -86,11 +88,12 @@ StateFunction( pausing )
     }
     onState
     {
-        if( sm.timeout() ) sm.exit() ;
+        if( sm.timeout() && mode == running ) sm.exit() ;                       // if time has passed and train is allowed to depart
     }
     exitState
     {
-        
+        setPoints( 1 ) ;                                                        // set the street to the siding before accelerating
+
         return 1 ;
     }
 }
@@ -145,11 +148,11 @@ uint8_t shuttleService()
 {
     STATE_MACHINE_BEGIN(sm)
     {
-        State( running )        sm.nextState( breaking,     0 ) ;               // wait for sensor to be tripped
-        State( breaking )       sm.nextState( pausing,   5000 ) ;               // start slowing down
-        State( pausing )        sm.nextState( accelerating, 0 ) ;               // toggle direction after 5s and wait before accelerating
-        State( accelerating )   sm.nextState( departure,    0 ) ;               // accelerate train
-        State( departure)       sm.nextState( running,      0 ) ;               // wait for train to leave the sensor, 20 second timeout
+        State( running )        sm.nextState( breaking,        0 ) ;               // wait for sensor to be tripped
+        State( breaking )       sm.nextState( pausing,      5000 ) ;               // start slowing down
+        State( pausing )        sm.nextState( accelerating, 5000 ) ;               // toggle direction after 5s and wait before accelerating, also sets points before accelerating
+        State( accelerating )   sm.nextState( departure,       0 ) ;               // accelerate train
+        State( departure)       sm.nextState( running,         0 ) ;               // wait for train to leave the sensor, 20 second timeout
 
     } STATE_MACHINE_END(sm)
 }

@@ -10,7 +10,7 @@ enum events
     teachingEnabled,
     turnedOff,
     detectorMade,           
-    trainBreaking,       
+    trainBraking,       
     trainArrived,
     trainDeparting,     
     trainNotDeparted, 
@@ -24,3 +24,4 @@ enum events
 
 extern void eventHandler() ;
 extern void setLights( uint8 ) ;
+extern uint8 mode ;
